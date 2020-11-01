@@ -3,23 +3,37 @@ package br.com.eicon.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.eicon.DTO.ClientOrderInputDTO;
+import br.com.eicon.Dao.ClientOrderDao;
+import br.com.eicon.Dto.ClientOrderInputDto;
+import br.com.eicon.Dto.ClientOrderOutputDto;
+import br.com.eicon.service.ClientOrderService;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/")
 class ClientOrderController {
-	@RequestMapping(value = {"/", "/teste/**", "/teste/**"})
-    public String Test(){
-        return "OK FUNCIONOU";
+	@Autowired
+	private ClientOrderService clientOrderService;
+	
+	@RequestMapping(value = {"/"})
+    public String clientOrder(Model model){
+		ArrayList<ClientOrderInputDto> orders = new ArrayList <ClientOrderInputDto>();
+		orders.add(new ClientOrderInputDto());
+		model.addAttribute("orders", orders );
+        return "index";
+    }
+	
+	@PostMapping(path = "/save", produces = "application/json")
+    public @ResponseBody  ArrayList<ClientOrderOutputDto> clientOrder(@RequestBody  ArrayList <ClientOrderInputDto> order) {
+    	return clientOrderService.saveClientOrderIfValid(order);
     }
     
-    @PostMapping(path = "/save")
-    public String customerInformation(@RequestBody ArrayList <ClientOrderInputDTO> order) {
-        return "Customer information saved successfully ::." + order.toString();
-    }
 }

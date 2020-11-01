@@ -2,9 +2,9 @@ package br.com.eicon.service;
 
 import java.util.ArrayList;
 
-import br.com.eicon.DTO.ClientOrderInputDTO;
-import br.com.eicon.DTO.ClientOrderOutputDTO;
+import br.com.eicon.Dto.ClientOrderInputDto;
+import br.com.eicon.Dto.ClientOrderOutputDto;
 
 public interface ClientOrderService {
-	ArrayList<ClientOrderOutputDTO>  validateOrders(ArrayList <ClientOrderInputDTO> clientOrders);
+	ArrayList<ClientOrderOutputDto>  saveClientOrderIfValid(ArrayList <ClientOrderInputDto> clientOrders);
 }

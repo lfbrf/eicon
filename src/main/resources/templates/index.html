@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Pontos Turísticos</title>
+
+<link href="../bootstrap.min.css" rel="stylesheet">
+
+<link href="../main.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<div id="header"></div>
+	<div class="container">
+
+
+		<header class="jumbotron my-4">
+			<h2 class="display-3">Seja bem vindo(a)</h2>
+			<p class="lead" id="userName">Cadastrar novo Pedido</p>
+
+		</header>
+		<!-- 
+		
+	
+		<li th:each="order : ${orders}">
+			<form action="/save" method="post" class="currentForm"
+				enctype="application/x-www-form-urlencoded">
+				<div class="modal-body">
+					<div class="row">
+
+						<div class="form-group">
+							<label>Número de Controle</label> <input name="numberControl"
+								th:value="${order.numberControl}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+							<input name="dateRegister" th:value="${order.dateRegister}" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<input name="name" th:value="${order.name}" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<input name="quantity" th:value="${order.quantity}" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<input name="value" th:value="${order.value}" />
+						</div>
+					</div>
+					<div  class="row">
+						<div class="form-group">
+							<input name="clientCode" th:value="${order.clientCode}" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<input name="totalValue" th:value="${order.totalValue}" />
+						</div>
+						<input type="submit" value="Salvar" />
+					</div>
+			</form>
+		</li>
+	 -->
+
+	<p>
+	array = [{numberControl: 1, dateRegister: '2020-05-30T09:00:00', name: 'Teste', quantity: 2, value: 10, clientCode: 15}, <br> 
+{numberControl: 2, dateRegister: '2020-05-30T12:00:00', name: 'Teste', quantity: 1, value: 10, clientCode: 15}]; <br>
+	</p>
+	<p>
+	$.ajax({ <br>
+    contentType: 'application/json', <br>
+    data: JSON.stringify(array), <br>
+    dataType: 'json', <br>
+    success: function(data){  <br>
+         console.log(JSON.stringify(data));  <br>
+    },  <br>
+    error: function(){  <br>
+        console.log("Erro na requisição");  <br>
+    },  <br>
+    processData: false,  <br>
+    type: 'POST',  <br>
+    url: '/save'  <br>
+	});  <br>
+	</p>
+
+
+	</div>
+
+
+
+
+
+	<div id="footer"></div>
+
+
+	<script src="../jquery.min.js"></script>
+	<script src="../bootstrap.bundle.min.js"></script>
+	<script src="../index.js"></script>
+
+</body>
+
+</html>

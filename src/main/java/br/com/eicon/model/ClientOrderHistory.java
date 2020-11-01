@@ -1,12 +1,8 @@
 package br.com.eicon.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,80 +11,54 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import br.com.eicon.Dto.ClientOrderInputDto;
 
-
 @Entity
-public class ClientOrder implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class ClientOrderHistory {
 	
-	public ClientOrder() {}
+	public ClientOrderHistory() {}
 	
-	public ClientOrder(int numberControl, Date dateRegister, String name, int quantity, BigDecimal value, int clientCode) {
-		this.numberControl = numberControl;
-		this.dateRegister = dateRegister;
-		this.name = name;
-		this.quantity = quantity;
-		this.value = value;
-		this.clientCode = clientCode;
-	}
-
-
-	
-	public ClientOrder(ClientOrderInputDto clientOrderInputDto) {
+	public ClientOrderHistory(ClientOrderInputDto clientOrderInputDto) {
 		this.numberControl = clientOrderInputDto.getNumberControl();
 		this.dateRegister = clientOrderInputDto.getDateRegister();
 		this.name = clientOrderInputDto.getName();
 		this.quantity = clientOrderInputDto.getQuantity();
 		this.value = clientOrderInputDto.getValue();
 		this.clientCode = clientOrderInputDto.getClientCode();
-		this.totalValue = clientOrderInputDto.getTotalValue();
+		this.valid = clientOrderInputDto.isValid();
+		this.messageStatus = clientOrderInputDto.getMessage();
+		dateOfSignUpRegister = new Date();
 	}
 
+	private Date dateOfSignUpRegister;
 
-	@NotBlank
-	@Column(unique = true)
-	private int numberControl;
+	private Date dateRegister;
 	
-	@NotBlank
-	private Date dateRegister = new Date();
-	
-	@NotBlank
 	private String name;
 	
-	@NotBlank
-	private int quantity = 1;
+	private int quantity;
 	
-	@NotBlank
 	private BigDecimal value;
+	
+	private boolean valid;	
 
-	@NotBlank
-	private BigDecimal totalValue;
-
-	@NotBlank
 	private int clientCode;
+	
+	private String messageStatus;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id")
 	private Long id;
-
-	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name="group_id", updatable = false)
     private ClientOrderGroup clientOrderGroup;
 
-	public ClientOrderGroup getClientOrderGroup() {
-		return clientOrderGroup;
-	}
-
-	public void setClientOrderGroup(ClientOrderGroup clientOrderGroup) {
-		this.clientOrderGroup = clientOrderGroup;
-	}
-
+	private int numberControl;
+	
 	public int getNumberControl() {
 		return numberControl;
 	}
@@ -129,12 +99,28 @@ public class ClientOrder implements Serializable{
 		this.value = value;
 	}
 
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
 	public int getClientCode() {
 		return clientCode;
 	}
 
 	public void setClientCode(int clientCode) {
 		this.clientCode = clientCode;
+	}
+
+	public String getMessageStatus() {
+		return messageStatus;
+	}
+
+	public void setMessageStatus(String messageStatus) {
+		this.messageStatus = messageStatus;
 	}
 
 	public Long getId() {
@@ -144,20 +130,20 @@ public class ClientOrder implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public BigDecimal getTotalValue() {
-		return totalValue;
+
+	public ClientOrderGroup getClientOrderGroup() {
+		return clientOrderGroup;
 	}
 
-	public void setTotalValue(BigDecimal totalValue) {
-		this.totalValue = totalValue;
+	public void setClientOrderGroup(ClientOrderGroup clientOrderGroup) {
+		this.clientOrderGroup = clientOrderGroup;
 	}
 
-	@Override
-	public String toString() {
-		return "ClientOrder [numberControl=" + numberControl + ", dateRegister=" + dateRegister + ", name=" + name
-				+ ", quantity=" + quantity + ", value=" + value + ", totalValue=" + totalValue + ", clientCode="
-				+ clientCode + ", id=" + id + ", clientOrderGroup=" + clientOrderGroup + "]";
+	public Date getDateOfSignUpRegister() {
+		return dateOfSignUpRegister;
 	}
-	
+
+	public void setDateOfSignUpRegister(Date dateOfSignUpRegister) {
+		this.dateOfSignUpRegister = dateOfSignUpRegister;
+	}
 }

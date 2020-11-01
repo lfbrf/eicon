@@ -1,30 +1,46 @@
-package br.com.eicon.DTO;
+package br.com.eicon.Dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ClientOrderInputDTO {
+import br.com.eicon.model.ClientOrder;
+
+public class ClientOrderInputDto {
 	
-	public ClientOrderInputDTO() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ClientOrderInputDto() {
 		this(new Date(), 1);
 	}
 	
-	public ClientOrderInputDTO(Date dateRegister, int quantity) {
+	public ClientOrderInputDto(boolean valid, String message) {
+		this.valid = valid;
+		this.message = message;
+	}
+	
+	public ClientOrderInputDto(Date dateRegister, int quantity) {
 		this.dateRegister = dateRegister;
 		this.quantity = quantity;
 	}
 	
-	public ClientOrderInputDTO(int numberControl, Date dateRegister, String name, int quantity, 
-			BigDecimal value, int clientCode ) {
+	public ClientOrderInputDto(int numberControl, Date dateRegister, String name, int quantity, 
+			BigDecimal value, int clientCode, BigDecimal totalValue ) {
 		this.numberControl= numberControl;
 		this.dateRegister = dateRegister;
 		this.name = name;
 		this.quantity = quantity;
 		this.value = value;
 		this.clientCode = clientCode;
+		this.totalValue = totalValue;
 	}
+
+	private boolean valid;
+	
+	private String message;
 	
 	private int numberControl;
 	
@@ -35,6 +51,8 @@ public class ClientOrderInputDTO {
 	private int quantity;
 	
 	private BigDecimal value;
+
+	private BigDecimal totalValue;
 	
 	private int clientCode;
 	
@@ -42,10 +60,21 @@ public class ClientOrderInputDTO {
 		return numberControl;
 	}
 
-	@Override
-	public String toString() {
-		return "ClientOrderDTO [numberControl=" + numberControl + ", dateRegister=" + dateRegister + ", name=" + name
-				+ ", quantity=" + quantity + ", value=" + value + ", clientCode=" + clientCode + "]";
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public void setNumberControl(int numberControl) {
@@ -91,6 +120,18 @@ public class ClientOrderInputDTO {
 	public void setClientCode(int clientCode) {
 		this.clientCode = clientCode;
 	}
+	
+	public BigDecimal getTotalValue() {
+		return totalValue;
+	}
 
+	public void setTotalValue(BigDecimal totalValue) {
+		this.totalValue = totalValue;
+	}
 
+	@Override
+	public String toString() {
+		return "ClientOrderDTO [numberControl=" + numberControl + ", dateRegister=" + dateRegister + ", name=" + name
+				+ ", quantity=" + quantity + ", value=" + value + ", clientCode=" + clientCode + "]";
+	}
 }
