@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Pontos Turísticos</title>
+<title>Controle de Pedidos</title>
 
 <link href="../bootstrap.min.css" rel="stylesheet">
 
@@ -27,59 +27,13 @@
 			<p class="lead" id="userName">Cadastrar novo Pedido</p>
 
 		</header>
-		<!-- 
 		
-	
-		<li th:each="order : ${orders}">
-			<form action="/save" method="post" class="currentForm"
-				enctype="application/x-www-form-urlencoded">
-				<div class="modal-body">
-					<div class="row">
-
-						<div class="form-group">
-							<label>Número de Controle</label> <input name="numberControl"
-								th:value="${order.numberControl}" />
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="form-group">
-							<input name="dateRegister" th:value="${order.dateRegister}" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<input name="name" th:value="${order.name}" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<input name="quantity" th:value="${order.quantity}" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<input name="value" th:value="${order.value}" />
-						</div>
-					</div>
-					<div  class="row">
-						<div class="form-group">
-							<input name="clientCode" th:value="${order.clientCode}" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<input name="totalValue" th:value="${order.totalValue}" />
-						</div>
-						<input type="submit" value="Salvar" />
-					</div>
-			</form>
-		</li>
-	 -->
-
+	<h3>Exemplo de Requisição para cadastrar pedidos no sistema (Post) </h3>
+	<p>Criar um array com os campos a seguir em seguida, enviar o ajax para o servidor processar, o retorno é exibido na sequência</p>
+	<p>Sendo necessário informar apenas os campos obrigatórios conforme especificação</p>
 	<p>
-	array = [{numberControl: 1, dateRegister: '2020-05-30T09:00:00', name: 'Teste', quantity: 2, value: 10, clientCode: 15}, <br> 
-{numberControl: 2, dateRegister: '2020-05-30T12:00:00', name: 'Teste', quantity: 1, value: 10, clientCode: 15}]; <br>
+	array = [{numberControl: 1, dateRegister: '2020-05-30 09:00:00', name: 'Teste', quantity: 2, value: 10, clientCode: 15}, <br> 
+{numberControl: 2, dateRegister: '2020-05-30 12:00:00', name: 'Teste', quantity: 1, value: 10, clientCode: 15}]; <br>
 	</p>
 	<p>
 	$.ajax({ <br>
@@ -94,15 +48,21 @@
     },  <br>
     processData: false,  <br>
     type: 'POST',  <br>
-    url: '/save'  <br>
+    url: 'http://localhost:8080/save'  <br>
 	});  <br>
 	</p>
 
-
+	<h3>Exemplo de requisição para consulta de pedidos cadastrados no sistema</h3>
+	<p>clientOrderSearch: String texto de consulta</p>
+	<p>numberControl: Booleano indica se deve filtrar pelo campo número de controle</p>
+	<p>dateRegister: Booleano indica se deve filtrar pelo campo data de registro</p>
+	<p>client: Booleano indica se deve filtrar pelo campo cliente</p>
+	<p>all: Booleano indica se deve filtrar por todos os campos</p>
+	<p>Para retornar todos os resultados informar todos os registros como false</p>
+	<p>
+	http://localhost:8080/search?clientOrderSearch=Teste&numberControl=false&dateRegister=false&client=false&all=true
+	</p>
 	</div>
-
-
-
 
 
 	<div id="footer"></div>

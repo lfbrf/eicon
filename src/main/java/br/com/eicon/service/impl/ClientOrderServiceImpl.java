@@ -1,9 +1,8 @@
 package br.com.eicon.service.impl;
 
 import java.math.BigDecimal;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,24 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.eicon.Dao.ClientOrderDao;
-import br.com.eicon.Dao.ClientOrderGroupDao;
-import br.com.eicon.Dao.ClientOrderHistoryDao;
-import br.com.eicon.Dto.ClientOrderInputDto;
-import br.com.eicon.Dto.ClientOrderOutputDto;
-import br.com.eicon.Utils.Message;
-import br.com.eicon.Utils.Util;
+import br.com.eicon.dao.ClientOrderDao;
+import br.com.eicon.dao.ClientOrderGroupDao;
+import br.com.eicon.dao.ClientOrderHistoryDao;
+import br.com.eicon.dto.ClientOrderInputDto;
+import br.com.eicon.dto.ClientOrderOutputDto;
 import br.com.eicon.model.ClientOrder;
 import br.com.eicon.model.ClientOrderGroup;
 import br.com.eicon.model.ClientOrderHistory;
 import br.com.eicon.service.ClientOrderService;
+import br.com.eicon.util.Message;
+import br.com.eicon.util.Util;
 
 @Component
 public class ClientOrderServiceImpl implements ClientOrderService {
 	
-	private ArrayList <ClientOrderInputDto> clientOrdersInput = new ArrayList<>();
-	private ArrayList <ClientOrder> clientOrder = new ArrayList<>();
-	private ArrayList <ClientOrderHistory> clientOrderHistory = new ArrayList<>();
+	private List <ClientOrderInputDto> clientOrdersInput = new ArrayList<>();
+	private List <ClientOrder> clientOrder = new ArrayList<>();
+	private List <ClientOrderHistory> clientOrderHistory = new ArrayList<>();
 	private  ClientOrderGroup clientOrderGroup = new ClientOrderGroup();
 	private int quantity = 0;
 	private BigDecimal total = new BigDecimal(0);
@@ -42,17 +41,17 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 	@Autowired
 	private ClientOrderGroupDao clientOrderGroupDao;
 
-	private boolean isQuantityOrderAlowed(ArrayList <ClientOrderInputDto> clientOrders) {
-		return clientOrders.size() > 0 && clientOrders.size() < 10;
+	private boolean isQuantityOrderAlowed(List <ClientOrderInputDto> clientOrders) {
+		return !clientOrders.isEmpty() && clientOrders.size() < 10;
 	}
 	
 	private boolean isOrderAlreadySaved(int numberControl) {
-		return clientOrderDao.findOrdersByNumber(numberControl).size() > 0;
+		return !(clientOrderDao.findOrdersByNumber(numberControl).isEmpty());
 	}
 	
 	private boolean isOrderInSameList(ClientOrderInputDto clientOrderInputDto) {
-		return clientOrder.stream().filter(co -> co.getNumberControl() == clientOrderInputDto.getNumberControl()).collect(Collectors 
-                .toCollection(ArrayList::new)).size() > 0;
+		return !(clientOrder.stream().filter(co -> co.getNumberControl() == clientOrderInputDto.getNumberControl()).collect(Collectors 
+                .toCollection(ArrayList::new)).isEmpty());
 	}
 	
 	private boolean validateOrder(ClientOrderInputDto order) {
@@ -84,10 +83,10 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 				&& clientOrderInputDto.getNumberControl() != 0;
 	}
 	
-	private ArrayList<ClientOrderOutputDto> setClientOrder(ArrayList <ClientOrderOutputDto> resultOutputDto) {
+	private List<ClientOrderOutputDto> setClientOrder(List <ClientOrderOutputDto> resultOutputDto) {
 		for (ClientOrderInputDto clientOrderInput: clientOrdersInput) {
 			boolean valid = hasMandatoryFields(clientOrderInput) && validateOrder(clientOrderInput);
-			ClientOrder clientOrder = new ClientOrder(clientOrderInput);
+			ClientOrder cOrder = new ClientOrder(clientOrderInput);
 			String message = Message.REPEATED_CONTROL;
 			clientOrderInput.setValid(valid);
 			if (!hasMandatoryFields(clientOrderInput)) {
@@ -95,17 +94,16 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 			}
 			else if (valid) {
 				message = Message.SUCCESS;
-				BigDecimal value = new BigDecimal(0);
-				value = getValueWithDiscount(clientOrder.getValue(), clientOrder.getQuantity());
+				BigDecimal value = getValueWithDiscount(cOrder.getValue(), cOrder.getQuantity());
 				total = total.add(value);
-				quantity += clientOrder.getQuantity();
+				quantity += cOrder.getQuantity();
 				clientOrderInput.setTotalValue(value);
 				setClientOrder(clientOrderInput);
 				message = Util.convertMessage(message, clientOrderInput.getNumberControl() + "");
 				clientOrderInput.setMessage(message);
 			}
 			message = Util.convertMessage(message, clientOrderInput.getNumberControl() + "");
-			resultOutputDto.add(new ClientOrderOutputDto(clientOrder.getNumberControl(), message , valid));
+			resultOutputDto.add(new ClientOrderOutputDto(cOrder.getNumberControl(), message , valid));
 			clientOrderInput.setMessage(message);
 			setClientHistory(clientOrderInput);
 		}
@@ -120,8 +118,8 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 		}
 	}
 	
-	private ArrayList <ClientOrderOutputDto> clientOrdersInputToOutput(){
-		ArrayList <ClientOrderOutputDto> resultOutputDto = new ArrayList<>();
+	private List<ClientOrderOutputDto> clientOrdersInputToOutput(){
+		List <ClientOrderOutputDto> resultOutputDto = new ArrayList<>();
 		if (!isQuantityOrderAlowed(clientOrdersInput)) {
 			resultOutputDto.add(new ClientOrderOutputDto(0, Message.NOT_ALOWED, false));
 			clientOrderGroup = new ClientOrderGroup(0, new BigDecimal(0));
@@ -139,29 +137,35 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 				order.setClientOrderGroup(clientOrderGroup);
 				clientOrderDao.persist(order);
 			}
-			for (ClientOrderHistory clientOrderHistory: clientOrderHistory) {
-				clientOrderHistory.setClientOrderGroup(clientOrderGroup);
-				clientOrderHistoryDao.persist(clientOrderHistory);
+			for (ClientOrderHistory corderHistory: clientOrderHistory) {
+				corderHistory.setClientOrderGroup(clientOrderGroup);
+				clientOrderHistoryDao.persist(corderHistory);
 			}
-		}
+		} 
 	}
 	
 	@Transactional
-	public ArrayList<ClientOrderOutputDto> saveClientOrderIfValid(ArrayList <ClientOrderInputDto> clientOrdersInput) {
+	public List<ClientOrderOutputDto> saveClientOrderIfValid(List <ClientOrderInputDto> clientOrdersInput) {
 		this.clientOrdersInput = clientOrdersInput;
 		total = new BigDecimal(0);
 		quantity = 0;
-		ArrayList<ClientOrderOutputDto> resultOutputDto = new ArrayList<>();
+		List<ClientOrderOutputDto> resultOutputDto = new ArrayList<>();
 		try {
 			resultOutputDto = clientOrdersInputToOutput();
 			clientOrderGroupDao.persist(clientOrderGroup);
 			saveClientOrders();
 		}catch(Exception ex) {
-			System.out.println("EX " + ex.getMessage());
+			System.err.println("Error to save order " + ex.getMessage());
 		}
 
 	
 		return resultOutputDto;
+	}
+	
+	@Transactional
+	public List<ClientOrder> searchClientOrder(String clientOrderSearch, boolean numberControl, boolean dateRegister, boolean client 
+			, boolean all) { 
+		return clientOrderDao.searchClientOrder(clientOrderSearch, numberControl, dateRegister, client, all);
 	}
 
 }

@@ -1,33 +1,28 @@
-package br.com.eicon.Dto;
+package br.com.eicon.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 
-import br.com.eicon.model.ClientOrder;
-
 public class ClientOrderInputDto {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 	public ClientOrderInputDto() {
-		this(new Date(), 1);
+		this(new Date().toString(), 1);
 	}
-	
+	 
 	public ClientOrderInputDto(boolean valid, String message) {
 		this.valid = valid;
 		this.message = message;
 	}
 	
-	public ClientOrderInputDto(Date dateRegister, int quantity) {
+	public ClientOrderInputDto(String dateRegister, int quantity) {
 		this.dateRegister = dateRegister;
 		this.quantity = quantity;
 	}
 	
-	public ClientOrderInputDto(int numberControl, Date dateRegister, String name, int quantity, 
+	public ClientOrderInputDto(int numberControl, String dateRegister, String name, int quantity, 
 			BigDecimal value, int clientCode, BigDecimal totalValue ) {
 		this.numberControl= numberControl;
 		this.dateRegister = dateRegister;
@@ -44,7 +39,7 @@ public class ClientOrderInputDto {
 	
 	private int numberControl;
 	
-	private Date dateRegister;
+	private String dateRegister;
 	
 	private String name;
 	
@@ -81,11 +76,11 @@ public class ClientOrderInputDto {
 		this.numberControl = numberControl;
 	}
 
-	public Date getDateRegister() {
+	public String getDateRegister() {
 		return dateRegister;
 	}
 
-	public void setDateRegister(Date dateRegister) {
+	public void setDateRegister(String dateRegister) {
 		this.dateRegister = dateRegister;
 	}
 

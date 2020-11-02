@@ -1,6 +1,4 @@
-package br.com.eicon.Dto;
-
-import br.com.eicon.Utils.Message;
+package br.com.eicon.dto;
 
 public class ClientOrderOutputDto {
 	private int numberControl;

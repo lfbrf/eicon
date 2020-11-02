@@ -1,4 +1,4 @@
-package br.com.eicon.Utils;
+package br.com.eicon.util;
 
 public class Message {
 	public static final String NOT_ALOWED = "Quantidade de pedidos enviados, não é permitido (Limite entre 1 e 10)";

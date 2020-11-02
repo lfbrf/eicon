@@ -1,10 +1,10 @@
 package br.com.eicon.model;
 
 import java.io.Serializable;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,10 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
-import br.com.eicon.Dto.ClientOrderInputDto;
+import br.com.eicon.dto.ClientOrderInputDto;
+import br.com.eicon.util.Util;
 
 
 @Entity
@@ -26,9 +26,22 @@ public class ClientOrder implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+
+	@SuppressWarnings("rawtypes")
+	public ClientOrder(Map map) {
+		this.totalValue = (BigDecimal) map.get("total_value");
+		this.quantity = (int) map.get("quantity");
+		this.name = (String) map.get("name");
+		this.value = (BigDecimal) map.get("value");
+		this.dateRegister =  (String) map.get("date_register");
+		this.clientCode = (int) map.get("client_code");
+		this.numberControl = (@NotBlank int) map.get("number_control");
+		this.id = Util.convertToLong(map.get("order_id"));
+	}
+	
 	public ClientOrder() {}
 	
-	public ClientOrder(int numberControl, Date dateRegister, String name, int quantity, BigDecimal value, int clientCode) {
+	public ClientOrder(int numberControl, String dateRegister, String name, int quantity, BigDecimal value, int clientCode) {
 		this.numberControl = numberControl;
 		this.dateRegister = dateRegister;
 		this.name = name;
@@ -55,7 +68,7 @@ public class ClientOrder implements Serializable{
 	private int numberControl;
 	
 	@NotBlank
-	private Date dateRegister = new Date();
+	private String dateRegister = new Date().toString();
 	
 	@NotBlank
 	private String name;
@@ -97,11 +110,11 @@ public class ClientOrder implements Serializable{
 		this.numberControl = numberControl;
 	}
 
-	public Date getDateRegister() {
+	public String getDateRegister() {
 		return dateRegister;
 	}
 
-	public void setDateRegister(Date dateRegister) {
+	public void setDateRegister(String dateRegister) {
 		this.dateRegister = dateRegister;
 	}
 

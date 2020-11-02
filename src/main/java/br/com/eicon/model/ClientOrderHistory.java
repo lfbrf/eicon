@@ -1,6 +1,7 @@
 package br.com.eicon.model;
 
 import java.math.BigDecimal;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,9 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 
-import br.com.eicon.Dto.ClientOrderInputDto;
+import br.com.eicon.dto.ClientOrderInputDto;
 
 @Entity
 public class ClientOrderHistory {
@@ -34,7 +34,7 @@ public class ClientOrderHistory {
 
 	private Date dateOfSignUpRegister;
 
-	private Date dateRegister;
+	private String dateRegister;
 	
 	private String name;
 	
@@ -67,11 +67,11 @@ public class ClientOrderHistory {
 		this.numberControl = numberControl;
 	}
 
-	public Date getDateRegister() {
+	public String getDateRegister() {
 		return dateRegister;
 	}
 
-	public void setDateRegister(Date dateRegister) {
+	public void setDateRegister(String dateRegister) {
 		this.dateRegister = dateRegister;
 	}
 
