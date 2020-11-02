@@ -18,11 +18,40 @@ Em goals definir clean install -> Apply -> Run
 ### Caso abra o projeto no eclipse é possível rodar a aplicação selecionando a classe principal (EiconApplication.java) -> Run as Java Application
 ### Também é possível rodar acessando a pasta raiz do projeto no terminal e rodar o comando: mvn spring-boot:run
 #
-### Seguindo esses passo o projeto já deve funcionar
+### Seguindo esses passos o projeto já deve funcionar
 #
 ## Pensando em agilizar os testes e análise do serviço que desenvolvi. Fiz o deploy da aplicação no heroku também
 ### https://eicon-test-app.herokuapp.com
 #
+
+
+<details><summary>Exemplo requisição POST de cadastro de pedido (Postman)/summary>
+
+### Referência: 
+https://pasteboard.co/JystRea.png
+### Url usada: 
+http://localhost:8080/save
+#
+### Xml usado:
+#
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<orders>
+<order>
+<numberControl>5</numberControl>
+<dateRegister>2020-05-30 09:00:00</dateRegister>
+<name>Produto 01</name>
+<quantity>2</quantity>
+<value>40</value>
+<clientCode>60</clientCode>
+</order>
+</orders>
+```
+#
+
+</details>
+
+
 ## Exemplo requisição POST de cadastro de pedido (Postman)
 ### Referência: 
 https://pasteboard.co/JystRea.png
