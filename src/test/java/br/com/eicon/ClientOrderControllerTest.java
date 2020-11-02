@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import br.com.eicon.service.ClientOrderService;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest()
-@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest
 class ClientOrderControllerTest {
 	
   @Autowired
