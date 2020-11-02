@@ -1,9 +1,9 @@
 spring:  
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/eicon?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    username: root
-    password: felipe95
+    url: jdbc:mysql://us-cdbr-east-02.cleardb.com/heroku_fc8f0222f424ac2?reconnect=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: bfa66f6df8f003
+    password: dcdbdd61
     initialization-mode: always
   jpa:
     hibernate.ddl-auto: 

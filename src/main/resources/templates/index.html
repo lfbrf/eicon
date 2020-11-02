@@ -31,6 +31,13 @@
 	<h3>Exemplo de Requisição para cadastrar pedidos no sistema (Post) </h3>
 	<p>Criar um array com os campos a seguir em seguida, enviar o ajax para o servidor processar, o retorno é exibido na sequência</p>
 	<p>Sendo necessário informar apenas os campos obrigatórios conforme especificação</p>
+	<p>numberControl número de controle</p>
+	<p>dateRegister Data de registro (campo String eviado e recebido na consulta)</p>
+	<p>name Nome </p>
+	<p>qauntity Quantidade</p>
+	<p>clientCode Código do cliente</p>
+	<p>Observação, ao enviar mais de um pedido alguns podem ser processados e outros não devido aos critérios de aceite, essas validações são tratadas
+	na aplicação</p>
 	<p>
 	array = [{numberControl: 1, dateRegister: '2020-05-30 09:00:00', name: 'Teste', quantity: 2, value: 10, clientCode: 15}, <br> 
 {numberControl: 2, dateRegister: '2020-05-30 12:00:00', name: 'Teste', quantity: 1, value: 10, clientCode: 15}]; <br>
@@ -48,7 +55,7 @@
     },  <br>
     processData: false,  <br>
     type: 'POST',  <br>
-    url: 'http://localhost:8080/save'  <br>
+    url: 'https://eicon-test-app.herokuapp.com/save'  <br>
 	});  <br>
 	</p>
 
@@ -60,7 +67,7 @@
 	<p>all: Booleano indica se deve filtrar por todos os campos</p>
 	<p>Para retornar todos os resultados informar todos os registros como false</p>
 	<p>
-	http://localhost:8080/search?clientOrderSearch=Teste&numberControl=false&dateRegister=false&client=false&all=true
+	https://eicon-test-app.herokuapp.com/search?clientOrderSearch=Teste&numberControl=false&dateRegister=false&client=false&all=true
 	</p>
 	</div>
 
